@@ -13,8 +13,15 @@ class Game:
         self.registered.append(player)
 
     def round(self, p1_name, p2_name):
-        p1 = self.get_player_by_name(self, p1_name)
-        p2 = self.get_player_by_name(self, p2_name)
+        try:
+            p1 = self.get_player_by_name(self, p1_name)
+        except NoRegisteredException:
+            return f'Игрок {p1_name} не зарегистрирован'
+        try:
+            p2 = self.get_player_by_name(self, p2_name)
+        except NoRegisteredException:
+            return f'Игрок {p2_name} не зарегистрирован'
+
         if p1.strength > p2.strength:
             return 1
         elif p2.strength > p1.strength:
@@ -25,7 +32,6 @@ class Game:
         for player in self.registered:
             if player.name == name:
                 return player
-        print(f'Игрок {name} не зарегистрирован')
         raise NoRegisteredException
 
 
